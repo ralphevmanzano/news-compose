@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">News</string>
+    <string name="unexpected_error">An unexpected error occurred. Please try again later.</string>
+    <string name="invalid_request">Invalid request. Please try again.</string>
+    <string name="no_internet_connection">No internet connection. Please check your connection.</string>
+    <string name="serialization_error">Couldn\'t parse the response.</string>
+    <string name="request_timed_out">Request timed out. Please try again.</string>
+    <string name="too_many_request_error">Oops! It seems like your quota has exceeded. Please try again later.</string>
+    <string name="bookmark">Bookmark</string>
+</resources>
