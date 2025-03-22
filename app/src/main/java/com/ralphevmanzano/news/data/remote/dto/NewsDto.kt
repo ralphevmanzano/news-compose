@@ -15,6 +15,8 @@ data class NewsDto(
     val pubDate: String,
     @SerialName("source_name")
     val sourceName: String,
+    @SerialName("source_icon")
+    val sourceIcon: String? = null,
     val content: String,
     @SerialName("image_url")
     val imageUrl: String? = null,

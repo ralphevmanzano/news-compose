@@ -9,6 +9,7 @@ data class NewsEntity(
     val id: String,
     val title: String,
     val sourceTitle: String,
+    val sourceIcon: String,
     val description: String? = null,
     val formattedPublishedDate: String,
     val articleLink: String,

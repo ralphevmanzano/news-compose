@@ -16,7 +16,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ralphevmanzano.news.presentation.featured_headlines.FeaturedHeadlinesScreen
+import com.ralphevmanzano.news.presentation.bookmarks.BookmarksScreen
+import com.ralphevmanzano.news.presentation.model.ARGS_NEWS
+import com.ralphevmanzano.news.presentation.model.NewsUi
+import com.ralphevmanzano.news.presentation.news_list.NewsListScreen
 import com.ralphevmanzano.news.presentation.model.Screen
 import com.ralphevmanzano.news.presentation.news_details.NewsDetailsScreen
 import com.ralphevmanzano.news.ui.theme.NewsTheme
@@ -55,18 +58,41 @@ fun SetupNavGraph(
         startDestination = Screen.FeaturedHeadlines
     ) {
         composable<Screen.FeaturedHeadlines> {
-            FeaturedHeadlinesScreen(
+            NewsListScreen(
                 modifier = Modifier.fillMaxSize(),
                 snackbarHostState = snackbarHostState,
-                onNavigateToDetails = {},
+                onNavigateToDetails = { news ->
+                    navHostController.navigate(Screen.NewsDetails)
+                    navHostController.currentBackStackEntry?.savedStateHandle?.set(ARGS_NEWS, news)
+                },
+                onNavigateToBookmarks = {
+                    navHostController.navigate(Screen.BookmarksScreen)
+                }
             )
         }
-        composable<Screen.NewsDetails> {
+        composable<Screen.NewsDetails> { backStackEntry ->
+            // Access the SavedStateHandle directly from the backStackEntry
+            val savedStateHandle = backStackEntry.savedStateHandle
+            val newsArgs = savedStateHandle.get<NewsUi>(ARGS_NEWS)
+
             NewsDetailsScreen(
                 modifier = Modifier.fillMaxSize(),
                 onNavigateBack = {
                     navHostController.popBackStack()
                 },
+                newsArgs = newsArgs
+            )
+        }
+        composable<Screen.BookmarksScreen> {
+            BookmarksScreen(
+                modifier = Modifier.fillMaxSize(),
+                onNavigateBack = {
+                    navHostController.popBackStack()
+                },
+                onNavigateToDetails = { news ->
+                    navHostController.navigate(Screen.NewsDetails)
+                    navHostController.currentBackStackEntry?.savedStateHandle?.set(ARGS_NEWS, news)
+                }
             )
         }
     }

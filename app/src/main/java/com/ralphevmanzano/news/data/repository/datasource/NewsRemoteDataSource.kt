@@ -25,13 +25,13 @@ class NewsRemoteDataSource(private val newsService: NewsService) {
         }
     }
 
-    suspend fun searchNews(q: String, nextCursor: String? = null): Result<PagedList<News>, NetworkError> {
+    suspend fun searchNews(q: String, nextPage: String? = null): Result<PagedList<News>, NetworkError> {
         if (q != prevSearchQuery) {
             prevSearchQuery = q
         }
 
         return safeCall {
-            newsService.searchNews(q = q, nextPage = nextCursor)
+            newsService.searchNews(q = q, nextPage = nextPage)
         }.map { response ->
             PagedList(
                 data = response.results.map { it.toNews() },

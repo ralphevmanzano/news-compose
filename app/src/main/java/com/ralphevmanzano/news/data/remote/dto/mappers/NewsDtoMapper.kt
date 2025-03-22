@@ -8,6 +8,7 @@ fun NewsDto.toNews(): News {
         id = id,
         title = title.orEmpty(),
         sourceTitle = sourceName,
+        sourceIcon = sourceIcon.orEmpty(),
         description = description.orEmpty(),
         pubDate = pubDate,
         articleLink = link,

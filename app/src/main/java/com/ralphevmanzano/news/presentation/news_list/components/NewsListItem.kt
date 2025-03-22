@@ -1,4 +1,4 @@
-package com.ralphevmanzano.news.presentation.featured_headlines
+package com.ralphevmanzano.news.presentation.news_list.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,13 +36,11 @@ import com.ralphevmanzano.news.R
 import com.ralphevmanzano.news.presentation.model.NewsUi
 import com.ralphevmanzano.news.ui.theme.Bookmark
 import com.ralphevmanzano.news.ui.theme.NewsTheme
-import com.ralphevmanzano.news.ui.theme.Pink80
-import com.ralphevmanzano.news.ui.theme.Purple80
 import com.ralphevmanzano.news.ui.theme.TransparentGray
 import com.ralphevmanzano.news.ui.theme.Typography
 
-const val IMAGE_SIZE = 300
-const val TITLE_MAX_LINES = 4
+private const val IMAGE_SIZE = 300
+private const val TITLE_MAX_LINES = 4
 
 @Composable
 fun NewsListItem(
@@ -68,7 +66,6 @@ fun NewsListItem(
                     .size(IMAGE_SIZE)
                     .crossfade(true)
                     .memoryCachePolicy(CachePolicy.ENABLED)
-                    .diskCachePolicy(CachePolicy.ENABLED)
                     .build(),
                 loading = {
                     Box(
@@ -154,6 +151,7 @@ private fun NewsListItemPreview() {
                 articleLink = "https://www.washingtontimes.com/news/2025/mar/19/legal-dispute-one-ohio-school-districts-pronoun-policy-know/",
                 formattedPublishedDate = "March 19, 2025",
                 description = "",
+                sourceIcon = ""
             ),
             onItemClicked = {},
             onBookmarkClicked = {}

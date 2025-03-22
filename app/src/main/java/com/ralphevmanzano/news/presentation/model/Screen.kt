@@ -8,5 +8,10 @@ sealed interface Screen {
     data object FeaturedHeadlines : Screen
 
     @Serializable
-    data class NewsDetails(val newsId: String) : Screen
+    data object NewsDetails : Screen
+
+    @Serializable
+    data object BookmarksScreen : Screen
 }
+
+const val ARGS_NEWS = "news"
