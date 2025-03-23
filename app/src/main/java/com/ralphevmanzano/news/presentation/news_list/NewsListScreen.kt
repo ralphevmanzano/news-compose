@@ -90,10 +90,10 @@ fun NewsListScreen(
         snapshotFlow { query }
             .debounce(DEBOUNCE_TIME)
             .distinctUntilChanged()
-            .collectLatest { debouncedQuery ->
-                if (debouncedQuery.isNotBlank() && debouncedQuery.length >= MINIMUM_SEARCH_CHAR_LENGTH) {
+            .collectLatest { q ->
+                if (q.isNotBlank() && q.length >= MINIMUM_SEARCH_CHAR_LENGTH) {
                     viewModel.searchNews()
-                } else {
+                } else if (q.isBlank()) {
                     viewModel.clearSearchResults()
                 }
             }

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.ralphevmanzano.news.presentation.model.NewsUi
 import com.ralphevmanzano.news.presentation.news_list.COLUMN_COUNT
 import com.ralphevmanzano.news.presentation.news_list.NewsListScreenState
+import com.ralphevmanzano.news.presentation.news_list.previewNewsList
 import com.ralphevmanzano.news.ui.theme.NewsTheme
 
 @Composable
@@ -72,30 +73,7 @@ private fun NewsFeedPreview() {
         NewsFeed(
             modifier = Modifier.fillMaxSize(),
             state = NewsListScreenState.FeaturedListState(
-                news = listOf(
-                    NewsUi(
-                        id = "1",
-                        title = "A Sample Title",
-                        sourceTitle = "BBC News",
-                        description = "A quick brown fox jumped over",
-                        formattedPublishedDate = "March 22, 2025",
-                        imageUrl = null,
-                        articleLink = "",
-                        sourceIcon = ""
-                    ),
-                    NewsUi(
-                        id = "2",
-                        title = "A Sample Title",
-                        sourceTitle = "BBC News",
-                        description = "A quick brown fox jumped over",
-                        formattedPublishedDate = "March 22, 2025",
-                        imageUrl = null,
-                        isBookmarked = true,
-                        isFeatured = true,
-                        articleLink = "",
-                        sourceIcon = ""
-                    ),
-                )
+                news = previewNewsList
             ),
             lazyGridState = LazyGridState(),
             onNewsClicked = {},

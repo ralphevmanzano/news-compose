@@ -71,7 +71,6 @@ fun SetupNavGraph(
             )
         }
         composable<Screen.NewsDetails> { backStackEntry ->
-            // Access the SavedStateHandle directly from the backStackEntry
             val savedStateHandle = backStackEntry.savedStateHandle
             val newsArgs = savedStateHandle.get<NewsUi>(ARGS_NEWS)
 

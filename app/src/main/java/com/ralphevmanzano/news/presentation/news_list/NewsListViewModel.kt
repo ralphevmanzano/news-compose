@@ -41,9 +41,8 @@ class NewsListViewModel(
 
     private val bookmarkedNews = mutableListOf<NewsUi>()
 
-    private val _state = MutableStateFlow(FeaturedListState())
-
-    val featuredHeadlinesState = _state.onStart {
+    private val _featuredHeadlinesState = MutableStateFlow(FeaturedListState())
+    val featuredHeadlinesState = _featuredHeadlinesState.onStart {
         performInitialLoad()
     }.stateIn(
         viewModelScope,
@@ -71,7 +70,7 @@ class NewsListViewModel(
     }
 
     fun getFeaturedHeadlines(isInit: Boolean = false) {
-        val state = _state.value
+        val state = _featuredHeadlinesState.value
 
         // Checks needed to prevent multiple calls
         if (state.isLoading || state.isLoadingMore || state.isEndReached) {
@@ -85,7 +84,7 @@ class NewsListViewModel(
         val existingNews = state.news
 
         viewModelScope.launch {
-            _state.update {
+            _featuredHeadlinesState.update {
                 it.copy(
                     isLoading = isInit,
                     isLoadingMore = !isInit && existingNews.isNotEmpty()
@@ -96,9 +95,9 @@ class NewsListViewModel(
                 .onSuccess { pagedList ->
                     featuredNextPage = pagedList.nextPage
 
-                    val updatedList = processPagedList(pagedList, existingNews, !isInit)
+                    val updatedList = processPagedList(pagedList, state, !isInit)
 
-                    _state.update {
+                    _featuredHeadlinesState.update {
                         it.copy(
                             isLoading = false,
                             isLoadingMore = false,
@@ -107,7 +106,7 @@ class NewsListViewModel(
                         )
                     }
                 }.onError { error ->
-                    _state.update {
+                    _featuredHeadlinesState.update {
                         it.copy(isLoading = false, isLoadingMore = false)
                     }
                     _errorEvents.emit(error)
@@ -149,7 +148,7 @@ class NewsListViewModel(
                 .onSuccess { pagedList ->
                     searchNextPage = pagedList.nextPage
 
-                    val updatedList = processPagedList(pagedList, existingSearchedList, !didQueryChanged)
+                    val updatedList = processPagedList(pagedList, state, !didQueryChanged)
 
                     _searchedState.update {
                         it.copy(
@@ -173,17 +172,34 @@ class NewsListViewModel(
 
     private fun processPagedList(
         pagedList: PagedList<NewsUi>,
-        existingNews: List<NewsUi>,
+        state: NewsListScreenState,
         isPaginating: Boolean
     ): List<NewsUi> {
-        val currentPageList = pagedList.data.map {
-            it.copy(isBookmarked = bookmarkedNews.contains(it))
+        // Set bookmark state
+        var currentPageList = pagedList.data.map {
+            it.copy(
+                isBookmarked = bookmarkedNews.any { bNews ->
+                    bNews.id == it.id
+                }
+            )
         }
 
+        // Set featured state on search results ONLY
+        if (state is SearchListState) {
+            currentPageList = currentPageList.map {
+                it.copy(
+                    isFeatured = featuredHeadlinesState.value.news.any { fNews ->
+                        fNews.id == it.id
+                    }
+                )
+            }
+        }
+
+        // Append if paginating
         return if (!isPaginating) {
-            currentPageList
+            currentPageList.distinctBy { it.title }
         } else {
-            (existingNews + currentPageList).distinctBy { it.id }
+            (state.news + currentPageList).distinctBy { it.title }
         }
     }
 
@@ -203,7 +219,7 @@ class NewsListViewModel(
             getAllBookmarkedNewsUseCase().collect { news ->
                 bookmarkedNews.clear()
                 bookmarkedNews.addAll(news)
-                _state.update {
+                _featuredHeadlinesState.update {
                     it.copy(news = updateNewsBookmarkState(it))
                 }
                 _searchedState.update {
@@ -223,7 +239,7 @@ class NewsListViewModel(
 
     fun toggleBookmark(id: String, isSearchedList: Boolean = false) {
         val list = if (isSearchedList) _searchedState.value.news
-        else _state.value.news
+        else _featuredHeadlinesState.value.news
 
         val index = list.indexOfFirst { it.id == id }
         if (index != -1) {
@@ -241,7 +257,7 @@ class NewsListViewModel(
 
     private fun updateBookmarkState(index: Int, isBookmarked: Boolean, isSearchedList: Boolean) {
         val updatedList = if (isSearchedList) _searchedState.value.news.toMutableList()
-        else _state.value.news.toMutableList()
+        else _featuredHeadlinesState.value.news.toMutableList()
 
         updatedList[index] = updatedList[index].copy(isBookmarked = isBookmarked)
 
@@ -250,7 +266,7 @@ class NewsListViewModel(
                 it.copy(news = updatedList)
             }
         } else {
-            _state.update {
+            _featuredHeadlinesState.update {
                 it.copy(news = updatedList)
             }
         }

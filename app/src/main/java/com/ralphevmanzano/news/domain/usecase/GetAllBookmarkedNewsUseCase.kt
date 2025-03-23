@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.map
 class GetAllBookmarkedNewsUseCase(private val newsRepository: NewsRepository) {
     operator fun invoke() = newsRepository.getAllBookmarkedNews().map { bookmarkedNews ->
         bookmarkedNews.map {
-            it.toNewsUi().copy(isBookmarked = true)
+            // Set featured to false, as we only want to show it in Search results
+            it.toNewsUi().copy(isBookmarked = true, isFeatured = false)
         }
     }
 }

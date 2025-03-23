@@ -18,8 +18,8 @@ class NewsRepositoryImpl(
         return remoteDataSource.getFeaturedHeadlines(nextCursor)
     }
 
-    override suspend fun searchNews(q: String, nextPage: String?): Result<PagedList<News>, NetworkError> {
-        return remoteDataSource.searchNews(q, nextPage)
+    override suspend fun searchNews(q: String, nextCursor: String?): Result<PagedList<News>, NetworkError> {
+        return remoteDataSource.searchNews(q, nextCursor)
     }
 
     override suspend fun bookmarkNews(news: News) {
