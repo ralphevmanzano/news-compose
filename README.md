@@ -39,6 +39,7 @@ News Compose is an Android application that is made with Modern Android Developm
 3. Featured Indicator (sparkle icon) **ONLY shows on search results**. (eg. Search for news which are visible on news feed/news list screen)
 4. Users can bookmark any news anywhere in the app (news feed/news list screen, bookmarks screen, news details screen), the app stores the bookmarked news in a local database using Room (I know it's not required but I did did it anyway to also showcase how I would architect the app with local database)
 5. The app can **ONLY load 10 items per page** as this is a limitation of the free pricing plan of the API
+6. Unit Test cases are also added for the ViewModels.
 
 ## Architecture
 The project follows **Clean Architecture** principles and implements **MVVM (Model-View-ViewModel)** to ensure a well-structured, maintainable, and testable codebase. It also employs the **Repository Pattern** and **Use Cases** to manage data and business logic efficiently.  
