@@ -6,6 +6,7 @@ News Compose is an Android application that is made with Modern Android Developm
   <img src="media/screen-1.png" alt="Cat List" width="300"/>
   <img src="media/screen-2.png" alt="Cat Details" width="300"/>
   <img src="media/screen-3.png" alt="Cat Details" width="300"/>
+  <img src="media/screen-4.png" alt="Cat Details" width="300"/>
 </p>
 
 ## Setup
@@ -36,7 +37,7 @@ News Compose is an Android application that is made with Modern Android Developm
 ## Coding Challenge Details
 1. The app now uses the [newsdata.io](https://newsdata.io/) API instead of [newsdatahub.com](https://newsdatahub.com/), as my account was locked after exceeding the API request limit. Both APIs function similarly, so this change shouldn't cause any issues.
 2. The app treats the News Feed as the **featured headlines**,
-3. Featured Indicator (sparkle icon) **ONLY shows on search results**. (eg. Search for news which are visible on news feed/news list screen)
+3. Featured Indicator (sparkle icon - refer to search screenshot) **ONLY shows on search results**. (eg. Search for news which are visible on news feed/news list screen)
 4. Users can bookmark any news anywhere in the app (news feed/news list screen, bookmarks screen, news details screen), the app stores the bookmarked news in a local database using Room (I know it's not required but I did did it anyway to also showcase how I would architect the app with local database)
 5. The app can **ONLY load 10 items per page** as this is a limitation of the free pricing plan of the API
 6. Unit Test cases are also added for the ViewModels.
