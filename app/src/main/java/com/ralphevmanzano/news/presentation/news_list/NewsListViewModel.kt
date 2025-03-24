@@ -197,9 +197,9 @@ class NewsListViewModel(
 
         // Append if paginating
         return if (!isPaginating) {
-            currentPageList.distinctBy { it.title }
+            currentPageList.distinctBy { it.id }
         } else {
-            (state.news + currentPageList).distinctBy { it.title }
+            (state.news + currentPageList).distinctBy { it.id }
         }
     }
 
